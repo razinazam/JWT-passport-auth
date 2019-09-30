@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import Register from "./component/register"
+import { Route, withRouter, Redirect } from "react-router-dom"
+import Nav from "./component/Nav"
+import Login from "./component/Login"
+import { connect } from "react-redux"
+// import { CheckToken } from "./actioncreator/index"
+import Axios from 'axios'
+class App extends Component {
+  render() {
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    // this.props.CheckToken()
+    return (
+      <div>
+        <Nav />
+        <Route path="/Login" render={() =>
+          this.props.auth == true ? <Redirect to="/" /> : <Login />
+        } />
+        <Route exact path="/register" component={Register} />
+      </div>
+    )
+  }
 }
-
-export default App;
+const mapStateToProps = (state) => {
+  return { ...state }
+}
+export default withRouter(connect(mapStateToProps)(App))
